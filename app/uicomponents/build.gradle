@@ -34,6 +34,22 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.2.0'
+
+    api "io.reactivex.rxjava3:rxkotlin:3.0.0"
+    api 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    api 'com.jakewharton.rxrelay3:rxrelay:3.0.0'
+    api 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
+    //androidx
+    api 'com.jakewharton.rxbinding4:rxbinding-core:4.0.0'
+    api 'com.jakewharton.rxbinding4:rxbinding-appcompat:4.0.0'
+    api 'com.jakewharton.rxbinding4:rxbinding-drawerlayout:4.0.0'
+    api 'com.jakewharton.rxbinding4:rxbinding-leanback:4.0.0'
+    api 'com.jakewharton.rxbinding4:rxbinding-recyclerview:4.0.0'
+    api 'com.jakewharton.rxbinding4:rxbinding-slidingpanelayout:4.0.0'
+    api 'com.jakewharton.rxbinding4:rxbinding-swiperefreshlayout:4.0.0'
+    api 'com.jakewharton.rxbinding4:rxbinding-viewpager:4.0.0'
+    api 'com.jakewharton.rxbinding4:rxbinding-viewpager2:4.0.0'
+    api 'com.jakewharton.rxbinding4:rxbinding-material:4.0.0'
 }
 
 

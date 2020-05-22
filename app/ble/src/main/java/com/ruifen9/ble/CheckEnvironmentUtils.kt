@@ -8,10 +8,12 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.location.LocationManager
+import androidx.annotation.RequiresPermission
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 
 
+//请使用懒加载，
 class CheckEnvironmentUtils(private val context: Context) {
 
     var currentEnv = Environment(
