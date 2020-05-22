@@ -1,2 +1,3 @@
 rootProject.name='CommonTool'
 include ':app'
+include ':app:ble'

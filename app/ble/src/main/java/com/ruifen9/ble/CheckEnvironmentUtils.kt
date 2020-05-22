@@ -1,4 +1,4 @@
-package com.ruifen9.commontool.ble
+package com.ruifen9.ble
 
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
@@ -14,7 +14,11 @@ import androidx.lifecycle.MutableLiveData
 
 class CheckEnvironmentUtils(private val context: Context) {
 
-    var currentEnv = Environment(bluetooth = false, location = false, locationPermission = false)
+    var currentEnv = Environment(
+        bluetooth = false,
+        location = false,
+        locationPermission = false
+    )
 
     fun getEnvironmentLiveData(): MutableLiveData<Environment> {
         return environmentLiveData
@@ -24,7 +28,11 @@ class CheckEnvironmentUtils(private val context: Context) {
         val ble = hasBluetoothOn()
         val locationEnable = hasLocationOn()
         val permission = hasAllowLocationPermission()
-        currentEnv = Environment(ble, locationEnable, permission)
+        currentEnv = Environment(
+            ble,
+            locationEnable,
+            permission
+        )
         return currentEnv
     }
 
@@ -67,7 +75,11 @@ class CheckEnvironmentUtils(private val context: Context) {
         val ble = hasBluetoothOn()
         val locationEnable = hasLocationOn()
         val permission = hasAllowLocationPermission()
-        currentEnv = Environment(ble, locationEnable, permission)
+        currentEnv = Environment(
+            ble,
+            locationEnable,
+            permission
+        )
         environmentLiveData.postValue(currentEnv)
     }
 
