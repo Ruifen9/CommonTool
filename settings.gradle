@@ -1,3 +1,4 @@
 rootProject.name='CommonTool'
 include ':app'
 include ':app:ble'
+include ':app:uicomponents'
