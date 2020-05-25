@@ -2,7 +2,8 @@ package com.ruifen9.commontool
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.jakewharton.rxbinding4.view.clicks
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -12,5 +13,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
+        Observable.just(0)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({}, {})
     }
 }

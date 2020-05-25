@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'com.github.dcendents.android-maven'
 
-group='com.github.CommonTools.ui'
+group = 'com.github.CommonTools.ui'
 
 android {
     compileSdkVersion 29
@@ -26,10 +26,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        targetCompatibility = 1.8
+        sourceCompatibility = 1.8
+    }
 
 }
 
 dependencies {
+
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -37,8 +43,9 @@ dependencies {
 
     api "io.reactivex.rxjava3:rxkotlin:3.0.0"
     api 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    api 'com.jakewharton.rxrelay3:rxrelay:3.0.0'
-    api 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
+    api("com.jakewharton.rxrelay3:rxrelay:3.0.0")
+    api ('com.jakewharton.rxbinding4:rxbinding:4.0.0')
+    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha03'
     //androidx
     api 'com.jakewharton.rxbinding4:rxbinding-core:4.0.0'
     api 'com.jakewharton.rxbinding4:rxbinding-appcompat:4.0.0'
