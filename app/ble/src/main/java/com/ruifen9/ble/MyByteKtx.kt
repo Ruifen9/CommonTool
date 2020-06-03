@@ -44,3 +44,32 @@ fun String.macToByteArray(): ByteArray {
         byteArrayOf()
     }
 }
+
+
+fun ByteArray.merge(bytes: ByteArray): ByteArray {
+    val newArray = ByteArray(this.size + bytes.size)
+    System.arraycopy(this, 0, newArray, 0, size)
+    System.arraycopy(bytes, 0, newArray, size, bytes.size)
+    return newArray
+}
+
+fun Byte.merge(bytes: ByteArray): ByteArray {
+    val newArray = ByteArray(1 + bytes.size)
+    newArray[0] = this
+    System.arraycopy(bytes, 0, newArray, 1, bytes.size)
+    return newArray
+}
+
+fun ByteArray.merge(byte: Byte): ByteArray {
+    val newArray = ByteArray(this.size + 1)
+    System.arraycopy(this, 0, newArray, 0, size)
+    newArray[newArray.lastIndex] = byte
+    return newArray
+}
+
+fun Byte.merge(byte: Byte): ByteArray {
+    val newArray = ByteArray(2)
+    newArray[0] = this
+    newArray[1] = byte
+    return newArray
+}
