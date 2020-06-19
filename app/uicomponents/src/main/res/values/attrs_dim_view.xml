@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DimView">
+        <attr name="dim_radius" format="dimension" />
+        <attr name="dim_foreground_color_start" format="color" />
+        <attr name="dim_foreground_color_end" format="color" />
+        <attr name="dim_background_color_start" format="color" />
+        <attr name="dim_background_color_end" format="color" />
+        <attr name="dim_show_progress" format="boolean" />
+        <attr name="dim_progress_textSize" format="dimension" />
+        <attr name="dim_progress_textColor" format="color" />
+        <attr name="dim_icon" format="reference" />
+        <attr name="dim_iconSize" format="dimension" />
+        <attr name="dim_orientation" format="enum">
+            <enum name="HORIZONTAL" value="0" />
+            <enum name="VERTICAL" value="1" />
+        </attr>
+    </declare-styleable>
+</resources>
