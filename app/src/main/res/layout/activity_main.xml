@@ -9,11 +9,19 @@
     <com.ruifen9.uicomponents.DimView
         android:layout_width="250dp"
         android:layout_height="50dp"
-        app:dim_icon="@drawable/lb_ic_nav_arrow"
+        app:dim_icon="@drawable/ic_brightness"
+        app:dim_radius="25dp"
         app:dim_iconSize="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.ruifen9.uicomponents.ArcDimView
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

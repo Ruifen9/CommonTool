@@ -45,7 +45,8 @@ class DimView : View, GestureDetector.OnGestureListener {
         textPaint.flags = Paint.ANTI_ALIAS_FLAG
         textPaint.textAlign = Paint.Align.LEFT
         progressPaint.style = Paint.Style.FILL
-        scalePaint.color = Color.DKGRAY
+        progressPaint.flags=Paint.ANTI_ALIAS_FLAG
+        scalePaint.color = Color.parseColor("#DEDFE1")
 
         // Load attributes
         val a = context.obtainStyledAttributes(
@@ -53,13 +54,13 @@ class DimView : View, GestureDetector.OnGestureListener {
         )
         radius = a.getDimension(R.styleable.DimView_dim_radius, 50f)
         val backgroundColorStart =
-            a.getColor(R.styleable.DimView_dim_background_color_start, Color.LTGRAY)
+            a.getColor(R.styleable.DimView_dim_background_color_start, Color.parseColor("#D4D1E2"))
         val backgroundColorEnd =
-            a.getColor(R.styleable.DimView_dim_background_color_end, Color.LTGRAY)
+            a.getColor(R.styleable.DimView_dim_background_color_end, Color.parseColor("#D4D1E2"))
         val foregroundColorStart =
-            a.getColor(R.styleable.DimView_dim_foreground_color_start, Color.GRAY)
+            a.getColor(R.styleable.DimView_dim_foreground_color_start, Color.parseColor("#6FB5FE"))
         val foregroundColorEnd =
-            a.getColor(R.styleable.DimView_dim_foreground_color_end, Color.GRAY)
+            a.getColor(R.styleable.DimView_dim_foreground_color_end, Color.parseColor("#082DD4"))
         backgroundColors[0] = backgroundColorStart
         backgroundColors[1] = backgroundColorEnd
         foregroundColors[0] = foregroundColorStart
@@ -68,7 +69,7 @@ class DimView : View, GestureDetector.OnGestureListener {
         showProgressText = a.getBoolean(R.styleable.DimView_dim_show_progress, true)
 
         textPaint.textSize = a.getDimension(R.styleable.DimView_dim_progress_textSize, 25f)
-        textPaint.color = a.getColor(R.styleable.DimView_dim_progress_textColor, Color.YELLOW)
+        textPaint.color = a.getColor(R.styleable.DimView_dim_progress_textColor, Color.parseColor("#FFFFFF"))
 
         if (a.hasValue(R.styleable.DimView_dim_icon)) {
             icon = a.getDrawable(
@@ -100,15 +101,28 @@ class DimView : View, GestureDetector.OnGestureListener {
     private fun setBackgroundColor(startColor: Int, endColor: Int) {
         backgroundColors[0] = startColor
         backgroundColors[1] = endColor
-        backgroundLinearGradient = LinearGradient(
-            0f,
-            0f,
-            0f,
-            height.toFloat(),
-            backgroundColors,
-            floatArrayOf(0.25f, 1f),
-            Shader.TileMode.MIRROR
-        )
+        if(orientation==Orientation.HORIZONTAL){
+            backgroundLinearGradient = LinearGradient(
+                0f,
+                0f,
+                width.toFloat(),
+                0f,
+                backgroundColors,
+                floatArrayOf(0.25f, 1f),
+                Shader.TileMode.MIRROR
+            )
+        }else{
+            backgroundLinearGradient = LinearGradient(
+                0f,
+                0f,
+                0f,
+                height.toFloat(),
+                backgroundColors,
+                floatArrayOf(0.25f, 1f),
+                Shader.TileMode.MIRROR
+            )
+        }
+
         invalidate()
     }
 
@@ -117,15 +131,27 @@ class DimView : View, GestureDetector.OnGestureListener {
     private fun setForegroundColor(startColor: Int, endColor: Int) {
         foregroundColors[0] = startColor
         foregroundColors[1] = endColor
-        foregroundLinearGradient = LinearGradient(
-            0f,
-            0f,
-            0f,
-            height.toFloat(),
-            foregroundColors,
-            floatArrayOf(0.25f, 1f),
-            Shader.TileMode.MIRROR
-        )
+        if(orientation==Orientation.HORIZONTAL){
+            foregroundLinearGradient = LinearGradient(
+                0f,
+                0f,
+                width.toFloat(),
+                0f,
+                foregroundColors,
+                floatArrayOf(0f, 1f),
+                Shader.TileMode.MIRROR
+            )
+        }else{
+            foregroundLinearGradient = LinearGradient(
+                0f,
+                0f,
+                0f,
+                height.toFloat(),
+                foregroundColors,
+                floatArrayOf(0.25f, 1f),
+                Shader.TileMode.MIRROR
+            )
+        }
         invalidate()
     }
 
@@ -194,7 +220,8 @@ class DimView : View, GestureDetector.OnGestureListener {
         invalidate()
     }
 
-    private var xfermode2: PorterDuffXfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN);
+    private var xfermode2: PorterDuffXfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+    private var textXfermode: PorterDuffXfermode = PorterDuffXfermode(PorterDuff.Mode.XOR)
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.scale(scale, scale, width * 0.5f, height * 0.5f)
@@ -202,6 +229,8 @@ class DimView : View, GestureDetector.OnGestureListener {
         drawScale(canvas)
         drawProgressText(canvas)
         drawIcon(canvas)
+
+
     }
 
     private fun drawProgress(canvas: Canvas) {
@@ -219,8 +248,10 @@ class DimView : View, GestureDetector.OnGestureListener {
         canvas.drawRect(backgroundRectF, progressPaint)
         progressPaint.shader = foregroundLinearGradient
         canvas.drawRect(progressRectF, progressPaint)
-        progressPaint.xfermode = null;
-        canvas.restoreToCount(saveId);//必须
+
+        progressPaint.xfermode = null
+
+        canvas.restoreToCount(saveId)//必须
     }
 
     private val longScaleFlag = 10
@@ -238,7 +269,7 @@ class DimView : View, GestureDetector.OnGestureListener {
             for (index in 1..99) {
                 val x = (index * offset).toFloat()
 
-                scalePaint.alpha = ((1 - abs(50 - index).toFloat() / 50) * 255).toInt()
+                scalePaint.alpha = ((1 - abs(50 - index).toFloat() / 50) * 200).toInt()
                 if (index % longScaleFlag == 0) {
                     val yStart = (cy - maxSize * 0.5).toFloat()
                     val yEnd = (cy + maxSize * 0.5).toFloat()
@@ -257,7 +288,7 @@ class DimView : View, GestureDetector.OnGestureListener {
             val minSize = maxSize * 0.5
             val cx = width * 0.5
             for (index in 1..99) {
-                scalePaint.alpha = ((1 - abs(50 - index).toFloat() / 50) * 255).toInt()
+                scalePaint.alpha = ((1 - abs(50 - index).toFloat() / 50) * 200).toInt()
                 val y = (index * offset).toFloat()
                 if (index % 5 == 0) {
                     val xStart = (cx - maxSize * 0.5).toFloat()
