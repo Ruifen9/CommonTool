@@ -15,13 +15,53 @@ import kotlin.math.abs
 
 class DimView : View, GestureDetector.OnGestureListener {
 
-    lateinit var mDetector: GestureDetector
+    private lateinit var mDetector: GestureDetector
     private var orientation = Orientation.HORIZONTAL
-    var progress = 0.5f
     private val progressPaint = Paint()
     private val scalePaint = Paint()
     private val textPaint = TextPaint()
+
     var radius = 50f
+        set(value) {
+            if (field != value) {
+                field = value
+                invalidate()
+            }
+        }
+    var progress = 0.5f
+        set(value) {
+            if (field != value) {
+                field = value
+                invalidate()
+            }
+        }
+
+    var max = 1f
+        set(value) {
+            field = value
+            progress = inRange(progress)
+            invalidate()
+        }
+    var min = 0f
+        set(value) {
+            field = value
+            progress = inRange(progress)
+            invalidate()
+        }
+
+    private fun inRange(mProgress: Float): Float {
+        return when {
+            mProgress > max -> {
+                max
+            }
+            mProgress < min -> {
+                min
+            }
+            else -> {
+                mProgress
+            }
+        }
+    }
 
     constructor(context: Context) : super(context) {
         init(context, null, 0)
@@ -321,7 +361,7 @@ class DimView : View, GestureDetector.OnGestureListener {
             return
         }
         val progressStr = listener?.progressTextMap(progress) ?: "${(progress * 100).toInt()}%"
-        val pointF = getTextStartPoint((progress * 100).toInt().toString())
+        val pointF = getTextStartPoint(progressStr)
         canvas.drawText(progressStr, pointF.x, pointF.y, textPaint)
     }
 
@@ -442,11 +482,7 @@ class DimView : View, GestureDetector.OnGestureListener {
             val location = progress * height + distanceY
             location / height
         }
-        if (progress > 1) {
-            progress = 1f
-        } else if (progress < 0) {
-            progress = 0f
-        }
+        progress = inRange(progress)
         calRect()
         listener?.onChanged(progress)
         invalidate()

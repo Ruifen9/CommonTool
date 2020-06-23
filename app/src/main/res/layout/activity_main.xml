@@ -14,7 +14,7 @@
         app:dim_radius="25dp"
         app:dim_orientation="VERTICAL"
         app:dim_iconSize="24dp"
-        app:dim_show_progress="false"
+        app:dim_show_progress="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

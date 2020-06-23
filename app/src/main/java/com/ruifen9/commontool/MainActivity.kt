@@ -19,9 +19,11 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun progressTextMap(progress: Float): String {
-                return "${progress*100}"
+                return "${progress*100000}"
             }
         }
+
+        dimView.min=0.01f
 
     }
 }
