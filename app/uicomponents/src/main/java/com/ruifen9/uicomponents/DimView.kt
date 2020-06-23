@@ -317,7 +317,10 @@ class DimView : View, GestureDetector.OnGestureListener {
     }
 
     private fun drawProgressText(canvas: Canvas) {
-        val progressStr = "${(progress * 100).toInt()}%"
+        if (!showProgressText) {
+            return
+        }
+        val progressStr = listener?.progressTextMap(progress) ?: "${(progress * 100).toInt()}%"
         val pointF = getTextStartPoint((progress * 100).toInt().toString())
         canvas.drawText(progressStr, pointF.x, pointF.y, textPaint)
     }
@@ -338,7 +341,7 @@ class DimView : View, GestureDetector.OnGestureListener {
             val iconPointF = if (orientation == Orientation.HORIZONTAL) {
                 PointF(offset, offset)
             } else {
-                PointF(offset, height-offset)
+                PointF(offset, height - offset)
             }
 
             it.setBounds(
@@ -457,6 +460,11 @@ class DimView : View, GestureDetector.OnGestureListener {
     var listener: OnProgressChangedListener? = null
 
     interface OnProgressChangedListener {
+
         fun onChanged(progress: Float)
+
+        fun progressTextMap(progress: Float): String {
+            return "${(progress * 100).toInt()}%"
+        }
     }
 }
