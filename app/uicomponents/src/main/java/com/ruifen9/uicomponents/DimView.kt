@@ -17,7 +17,7 @@ class DimView : View, GestureDetector.OnGestureListener {
 
     lateinit var mDetector: GestureDetector
     private var orientation = Orientation.HORIZONTAL
-    private var progress = 0.5f
+    var progress = 0.5f
     private val progressPaint = Paint()
     private val scalePaint = Paint()
     private val textPaint = TextPaint()
@@ -414,6 +414,7 @@ class DimView : View, GestureDetector.OnGestureListener {
     ): Boolean {
         //一次短时间滑动事件
         startAnimator(scale, 1f)
+        listener?.onChanged(progress)
         return true
     }
 
@@ -437,11 +438,18 @@ class DimView : View, GestureDetector.OnGestureListener {
             progress = 0f
         }
         calRect()
+        listener?.onChanged(progress)
         invalidate()
         return true
     }
 
     override fun onLongPress(e: MotionEvent?) {
         //长按但未滑动
+    }
+
+    var listener: OnProgressChangedListener? = null
+
+    interface OnProgressChangedListener {
+        fun onChanged(progress: Float)
     }
 }
