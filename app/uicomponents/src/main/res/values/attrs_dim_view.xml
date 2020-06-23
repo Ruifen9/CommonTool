@@ -6,6 +6,7 @@
         <attr name="dim_foreground_color_end" format="color" />
         <attr name="dim_background_color_start" format="color" />
         <attr name="dim_background_color_end" format="color" />
+        <attr name="dim_show_scale" format="boolean" />
         <attr name="dim_show_progress" format="boolean" />
         <attr name="dim_progress_textSize" format="dimension" />
         <attr name="dim_progress_textColor" format="color" />

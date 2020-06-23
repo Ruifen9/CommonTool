@@ -45,7 +45,7 @@ class DimView : View, GestureDetector.OnGestureListener {
         textPaint.flags = Paint.ANTI_ALIAS_FLAG
         textPaint.textAlign = Paint.Align.LEFT
         progressPaint.style = Paint.Style.FILL
-        progressPaint.flags=Paint.ANTI_ALIAS_FLAG
+        progressPaint.flags = Paint.ANTI_ALIAS_FLAG
         scalePaint.color = Color.parseColor("#DEDFE1")
 
         // Load attributes
@@ -67,9 +67,11 @@ class DimView : View, GestureDetector.OnGestureListener {
         foregroundColors[1] = foregroundColorEnd
 
         showProgressText = a.getBoolean(R.styleable.DimView_dim_show_progress, true)
+        showScaleView = a.getBoolean(R.styleable.DimView_dim_show_scale, true)
 
         textPaint.textSize = a.getDimension(R.styleable.DimView_dim_progress_textSize, 25f)
-        textPaint.color = a.getColor(R.styleable.DimView_dim_progress_textColor, Color.parseColor("#FFFFFF"))
+        textPaint.color =
+            a.getColor(R.styleable.DimView_dim_progress_textColor, Color.parseColor("#FFFFFF"))
 
         if (a.hasValue(R.styleable.DimView_dim_icon)) {
             icon = a.getDrawable(
@@ -98,10 +100,10 @@ class DimView : View, GestureDetector.OnGestureListener {
 
     private val backgroundColors = IntArray(2)
     private var backgroundLinearGradient: LinearGradient? = null
-    private fun setBackgroundColor(startColor: Int, endColor: Int) {
+    fun setDImBackgroundColor(startColor: Int, endColor: Int) {
         backgroundColors[0] = startColor
         backgroundColors[1] = endColor
-        if(orientation==Orientation.HORIZONTAL){
+        if (orientation == Orientation.HORIZONTAL) {
             backgroundLinearGradient = LinearGradient(
                 0f,
                 0f,
@@ -111,7 +113,7 @@ class DimView : View, GestureDetector.OnGestureListener {
                 floatArrayOf(0.25f, 1f),
                 Shader.TileMode.MIRROR
             )
-        }else{
+        } else {
             backgroundLinearGradient = LinearGradient(
                 0f,
                 0f,
@@ -128,10 +130,10 @@ class DimView : View, GestureDetector.OnGestureListener {
 
     private val foregroundColors = IntArray(2)
     private var foregroundLinearGradient: LinearGradient? = null
-    private fun setForegroundColor(startColor: Int, endColor: Int) {
+    fun setDimForegroundColor(startColor: Int, endColor: Int) {
         foregroundColors[0] = startColor
         foregroundColors[1] = endColor
-        if(orientation==Orientation.HORIZONTAL){
+        if (orientation == Orientation.HORIZONTAL) {
             foregroundLinearGradient = LinearGradient(
                 0f,
                 0f,
@@ -141,7 +143,7 @@ class DimView : View, GestureDetector.OnGestureListener {
                 floatArrayOf(0f, 1f),
                 Shader.TileMode.MIRROR
             )
-        }else{
+        } else {
             foregroundLinearGradient = LinearGradient(
                 0f,
                 0f,
@@ -170,6 +172,12 @@ class DimView : View, GestureDetector.OnGestureListener {
         invalidate()
     }
 
+    var showScaleView = true
+    fun enableScaleView(enable: Boolean) {
+        showScaleView = enable
+        invalidate()
+    }
+
     fun setDimRadius(radius: Float) {
         this.radius = radius
         invalidate()
@@ -179,8 +187,8 @@ class DimView : View, GestureDetector.OnGestureListener {
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         calRect()
-        setForegroundColor(foregroundColors[0], foregroundColors[1])
-        setBackgroundColor(backgroundColors[0], backgroundColors[1])
+        setDimForegroundColor(foregroundColors[0], foregroundColors[1])
+        setDImBackgroundColor(backgroundColors[0], backgroundColors[1])
     }
 
     private fun getTextStartPoint(str: String): PointF {
@@ -261,6 +269,9 @@ class DimView : View, GestureDetector.OnGestureListener {
      * 刻度
      */
     private fun drawScale(canvas: Canvas) {
+        if (!showScaleView) {
+            return
+        }
         if (orientation == Orientation.HORIZONTAL) {
             val offset = width * 0.01
             val maxSize = height * 0.33
