@@ -100,7 +100,7 @@ class DimView : View, GestureDetector.OnGestureListener {
 
     private val backgroundColors = IntArray(2)
     private var backgroundLinearGradient: LinearGradient? = null
-    fun setDImBackgroundColor(startColor: Int, endColor: Int) {
+    fun setDimBackgroundColor(startColor: Int, endColor: Int) {
         backgroundColors[0] = startColor
         backgroundColors[1] = endColor
         if (orientation == Orientation.HORIZONTAL) {
@@ -188,7 +188,7 @@ class DimView : View, GestureDetector.OnGestureListener {
         super.onSizeChanged(w, h, oldw, oldh)
         calRect()
         setDimForegroundColor(foregroundColors[0], foregroundColors[1])
-        setDImBackgroundColor(backgroundColors[0], backgroundColors[1])
+        setDimBackgroundColor(backgroundColors[0], backgroundColors[1])
     }
 
     private fun getTextStartPoint(str: String): PointF {
@@ -327,12 +327,19 @@ class DimView : View, GestureDetector.OnGestureListener {
             height * 0.5f
         } else {
             width * 0.5f
+
         }
+
+
 
         icon?.let {
             val size = iconSize * 0.5f
 
-            val iconPointF = PointF(offset, offset)
+            val iconPointF = if (orientation == Orientation.HORIZONTAL) {
+                PointF(offset, offset)
+            } else {
+                PointF(offset, height-offset)
+            }
 
             it.setBounds(
                 (iconPointF.x - size).toInt(),

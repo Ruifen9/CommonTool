@@ -7,10 +7,11 @@
     tools:context=".MainActivity">
 
     <com.ruifen9.uicomponents.DimView
-        android:layout_width="250dp"
-        android:layout_height="50dp"
+        android:layout_width="50dp"
+        android:layout_height="250dp"
         app:dim_icon="@drawable/ic_brightness"
         app:dim_radius="25dp"
+        app:dim_orientation="VERTICAL"
         app:dim_iconSize="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
