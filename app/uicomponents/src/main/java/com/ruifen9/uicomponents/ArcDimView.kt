@@ -125,7 +125,7 @@ class ArcDimView : View, GestureDetector.OnGestureListener {
     }
 
     fun drawIndicator(canvas: Canvas){
-        
+
     }
 
 
