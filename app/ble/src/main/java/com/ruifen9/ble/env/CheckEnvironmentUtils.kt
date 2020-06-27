@@ -1,4 +1,4 @@
-package com.ruifen9.ble
+package com.ruifen9.ble.env
 
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
@@ -8,7 +8,8 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.location.LocationManager
-import androidx.annotation.RequiresPermission
+import android.os.Build
+import android.provider.Settings
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 
@@ -16,11 +17,12 @@ import androidx.lifecycle.MutableLiveData
 //请使用懒加载，
 class CheckEnvironmentUtils(private val context: Context) {
 
-    var currentEnv = Environment(
-        bluetooth = false,
-        location = false,
-        locationPermission = false
-    )
+    private var currentEnv =
+        Environment(
+            bluetooth = false,
+            location = false,
+            locationPermission = false
+        )
 
     fun getEnvironmentLiveData(): MutableLiveData<Environment> {
         return environmentLiveData
@@ -92,8 +94,23 @@ class CheckEnvironmentUtils(private val context: Context) {
     private fun hasLocationOn(): Boolean {
         val locationManager =
             context.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
-        return locationManager?.isLocationEnabled ?: false
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            locationManager?.isLocationEnabled ?: false
+        } else {
+           val locationMode = try {
+                Settings.Secure.getInt(
+                    context.contentResolver,
+                    Settings.Secure.LOCATION_MODE
+                )
+            } catch (e: Settings.SettingNotFoundException) {
+                e.printStackTrace()
+                return false
+            }
+            locationMode != Settings.Secure.LOCATION_MODE_OFF
+        }
     }
+
+
 
 
     private fun hasAllowLocationPermission(): Boolean {
