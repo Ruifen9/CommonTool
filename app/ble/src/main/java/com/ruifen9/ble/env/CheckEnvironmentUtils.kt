@@ -86,6 +86,12 @@ class CheckEnvironmentUtils(private val context: Context) : LifecycleObserver {
 
     /**
      * 未来会变动
+     *
+     * 如何使用：
+     * step1:
+     *  val utils= CheckEnvironmentUtils(context)
+     * step2:
+     *  utils.link(activity)
      */
     fun link(activity: FragmentActivity) {
 
@@ -100,8 +106,8 @@ class CheckEnvironmentUtils(private val context: Context) : LifecycleObserver {
                 }
             } else {
                 val parent = activity.window.decorView
-                if(parent.id==View.NO_ID){
-                    parent.id= View.generateViewId()
+                if (parent.id == View.NO_ID) {
+                    parent.id = View.generateViewId()
                 }
                 fm.beginTransaction()
                     .replace(parent.id, BleEnvFragment(), "env")

@@ -10,6 +10,7 @@ class BleDevice(
     private val scanRecord: ScanRecord?
 ) {
 
+    val receiveTimeMillis = System.currentTimeMillis()
 
     val localName: String = scanRecord?.deviceName ?: ""
 

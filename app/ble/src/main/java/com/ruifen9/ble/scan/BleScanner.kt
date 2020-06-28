@@ -32,7 +32,8 @@ class BleScanner private constructor() {
      * 扫描建议：扫描开始和结束关联页面生命周期。
      *
      */
-    fun scan(@IntRange(from = -1, to = 2) scanMode: Int) {
+    private val defaultScanMode = android.bluetooth.le.ScanSettings.SCAN_MODE_LOW_POWER
+    fun scan(@IntRange(from = -1, to = 2) scanMode: Int = defaultScanMode) {
         //todo 是否可以去掉这个判断
         if (isScanningLiveData.value == true) {
             return
