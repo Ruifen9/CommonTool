@@ -2,19 +2,13 @@ package com.ruifen9.commontool
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.lifecycle.lifecycleScope
-import com.ruifen9.ble.connect.BleConnection
-import com.ruifen9.ble.connect.BleMgr
+import androidx.lifecycle.ViewModelProviders
 import com.ruifen9.ble.env.CheckEnvironmentUtils
 import com.ruifen9.uicomponents.DimView
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

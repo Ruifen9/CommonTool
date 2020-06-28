@@ -14,14 +14,13 @@ import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.*
 
-
-//请使用懒加载，
+/**
+ * @deprecated 请使用EnvLiveData
+ * @see EnvLiveData
+ */
+@Deprecated("请使用EnvLiveData")
 class CheckEnvironmentUtils(private val context: Context) : LifecycleObserver {
 
     private val environmentLiveData = MutableLiveData<Environment>()
@@ -45,21 +44,6 @@ class CheckEnvironmentUtils(private val context: Context) : LifecycleObserver {
 
         checkEnv()
     }
-
-    data class Environment(
-        var bluetooth: Boolean,
-        var location: Boolean,
-        var locationPermission: Boolean
-    ) {
-        fun ready(): Boolean {
-            return bluetooth && location && locationPermission
-        }
-
-        override fun toString(): String {
-            return "Environment(bluetooth=$bluetooth, location=$location, locationPermission=$locationPermission)"
-        }
-    }
-
 
     /**
      * 只有在运行环境变化时才会post
