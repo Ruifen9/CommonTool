@@ -2,8 +2,10 @@ package com.ruifen9.ble.scan
 
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.le.ScanSettings
+import android.os.Parcelable
 import androidx.core.util.isNotEmpty
 import no.nordicsemi.android.support.v18.scanner.ScanRecord
+import java.nio.ByteBuffer
 
 class BleDevice(
     val bluetoothDevice: BluetoothDevice,
@@ -19,7 +21,14 @@ class BleDevice(
 
     val manufacturerData = scanRecord?.manufacturerSpecificData?.run {
         if (isNotEmpty()) {
-            this.valueAt(0)
+            val data1 = this.valueAt(0)
+            val data2 = keyAt(0).and(0xff).toByte()
+            val data3 = keyAt(0).shr(8).and(0xff).toByte()
+            val sb = ByteBuffer.allocate(data1.size + 2)
+            sb.put(data3)
+            sb.put(data2)
+            sb.put(data1)
+            sb.array()
         } else {
             null
         }

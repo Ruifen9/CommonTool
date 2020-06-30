@@ -11,11 +11,9 @@ import com.ruifen9.ble.connect.model.BleResult
 import com.ruifen9.ble.connect.model.ConnectionData
 import com.ruifen9.ble.connect.model.ConnectionState
 import com.ruifen9.ble.toHexString
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
