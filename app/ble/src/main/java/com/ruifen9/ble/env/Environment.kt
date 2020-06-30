@@ -12,4 +12,12 @@ data class Environment(
     override fun toString(): String {
         return "Environment(bluetooth=$bluetooth, location=$location, locationPermission=$locationPermission)"
     }
+
+
+    fun equalsEnv(env: Environment): Boolean {
+        return bluetooth == env.bluetooth
+                && location == env.location
+                && locationPermission == env.locationPermission
+    }
+
 }

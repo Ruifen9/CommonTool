@@ -14,13 +14,18 @@ import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.ruifen9.ble.R
 import kotlinx.android.synthetic.main.fragment_ble_env.*
 
 
 class BleEnvFragment : Fragment() {
 
-    private var envCheck: CheckEnvironmentUtils? = null
+    private val envViewModel: EnvViewModel by lazy {
+        ViewModelProvider(requireActivity(), EnvViewModelFactory(requireContext())).get(
+            EnvViewModel::class.java
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,9 +37,8 @@ class BleEnvFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        envCheck = CheckEnvironmentUtils(view.context)
-        lifecycle.addObserver(envCheck!!)
-        envCheck!!.getEnvironmentLiveData().observe(this, Observer {
+
+        envViewModel.envLiveData.observe(this, Observer {
             if (it.ready()) {
                 fragmentManager?.apply {
                     try {
@@ -114,7 +118,7 @@ class BleEnvFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 100) {
-            envCheck?.checkEnv()
+            envViewModel.envLiveData.checkEnv()
         }
     }
 
@@ -134,16 +138,17 @@ class BleEnvFragment : Fragment() {
                 }
             }
             if (needCheck) {
-                envCheck?.checkEnv()
+                envViewModel.envLiveData.checkEnv()
             }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        envCheck?.checkEnv()
+        envViewModel.envLiveData.checkEnv()
     }
 
+    //全屏显示
     var lastFlag = WindowManager.LayoutParams.FLAG_FULLSCREEN
     override fun onAttach(context: Context) {
         super.onAttach(context)

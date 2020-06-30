@@ -31,30 +31,18 @@ class EnvLiveData(private val context: Context) : LiveData<Environment>() {
             locationEnable,
             permission
         )
-        postValue(currentEnv)
-        return currentEnv
-    }
-
-    fun autoShowEnvTips(activity: FragmentActivity){
-        observe(activity, Observer {
-            val fm = activity.supportFragmentManager
-            if (it.ready()) {
-                val envFragment = fm.findFragmentByTag("env")
-                if (envFragment != null) {
-                    fm.beginTransaction()
-                        .remove(envFragment)
-                        .commitNowAllowingStateLoss()
-                }
+        return if (value == null) {
+            postValue(currentEnv)
+            currentEnv
+        } else {
+            if (!value!!.equalsEnv(currentEnv)) {
+                postValue(currentEnv)
+                currentEnv
             } else {
-                val parent = activity.window.decorView
-                if (parent.id == View.NO_ID) {
-                    parent.id = View.generateViewId()
-                }
-                fm.beginTransaction()
-                    .replace(parent.id, BleEnvFragment(), "env")
-                    .commitNowAllowingStateLoss()
+                value!!
             }
-        })
+        }
+
     }
 
     private val bleAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
@@ -114,7 +102,7 @@ class EnvLiveData(private val context: Context) : LiveData<Environment>() {
         context.unregisterReceiver(receiver)
     }
 
-   override fun onActive() {
+    override fun onActive() {
         super.onActive()
         registerChanged()
         checkEnv()

@@ -2,6 +2,7 @@ package com.ruifen9.ble.scan
 
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.le.ScanSettings
+import androidx.core.util.isNotEmpty
 import no.nordicsemi.android.support.v18.scanner.ScanRecord
 
 class BleDevice(
@@ -16,6 +17,14 @@ class BleDevice(
 
     val bytes = scanRecord?.bytes
 
+    val manufacturerData = scanRecord?.manufacturerSpecificData?.run {
+        if (isNotEmpty()) {
+            this.valueAt(0)
+        } else {
+            null
+        }
+    }
+
     /**
      *  广播包 =》... FF ad cd [Manufacturer Specific Data]
      *
@@ -24,7 +33,6 @@ class BleDevice(
      * [ ad cd ] to Int ManufacturerId
      */
     fun getManufacturerSpecificData(manufacturerId: Int): ByteArray? {
-        ScanSettings.SCAN_MODE_BALANCED
         return scanRecord?.getManufacturerSpecificData(manufacturerId)
     }
 

@@ -21,6 +21,20 @@ class BleMgr private constructor(app: Application) {
         return connection
     }
 
+    fun getConnection(mac: String): BleConnection {
+        var mConnection: BleConnection? = null
+        for (connection in connections) {
+            if (connection.data.mac == mac) {
+                mConnection = connection
+                break
+            }
+        }
+        if (mConnection == null) {
+            mConnection = createConnection()
+        }
+        return mConnection
+    }
+
 
     companion object {
 
